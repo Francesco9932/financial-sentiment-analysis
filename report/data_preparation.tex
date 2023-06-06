@@ -1,0 +1,8 @@
+Per la fase di data preparation si è scelto di utilizzare un \textbf{Notebook Jupyter} insieme a \textbf{Python} utilizzando \textbf{Pandas}.
+Sono state applicate \codeinline{dropna()} e \codeinline{drop_duplicates()} pre-processing per cancellare le ennuple del dataset contenenti valori nulli e duplicati, la rimozione della punteggiatura e conversione a lowercase. Inoltre, non sono state rimosse le stopwords o effettuate ulteriori fasi di pre-processing dato che sono state ritenute caratteristiche importanti da mantenere per il task di Sentiment Analysis, riuscendo ad ottenere risultati migliori non modificando ulteriormente la frase originale.
+Ecco alcuni esempi di news headline dopo la data preparation:
+\begin{itemize}
+    \item \label{label:1}Positive news headline example : according to the company  s updated strategy for the years 2009 2012   basware targets a long term net sales growth in the range of 20    40   with an operating profit margin of 10    20   of net sales
+    \item \label{label:2}Negative news headline example : a tinyurl link takes users to a scamming site promising that users can earn thousands of dollars by becoming a google   nasdaq   goog   cash advertiser
+    \item \label{label:3}Neutral news headline example  : technopolis plans to develop in stages an area of no less than 100 000 square meters in order to host companies working in computer technologies and telecommunications   the statement said
+\end{itemize}

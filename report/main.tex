@@ -1,0 +1,90 @@
+\documentclass[11pt, english]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{listings} % per scrittura di codice
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=cyan,
+    citecolor=blue,
+    urlcolor=magenta,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\usepackage{footnote}
+\usepackage{graphicx}
+\graphicspath{{./images}}
+
+\usepackage{biblatex}
+\addbibresource{bibliografia.bib}
+
+\definecolor{InlineGray}{HTML}{E3E3E3}
+
+% this style should be active for all lstlistings environments
+\lstdefinestyle{all}{
+ % columns=flexible,
+ tabsize=2,
+ columns=fixed,
+ keepspaces=true,
+ frameshape={}{y}{}{}, % per rimuovere la linea vericale sulla sinistra `frameshape={}{}{}{}`
+ basicstyle = {\ttfamily \color{black}},
+ showstringspaces=false,
+ rulecolor=\color{black},
+ numberstyle=\tiny\color{lightgray}
+}
+
+\lstdefinestyle{inline}{
+ basicstyle={\small\ttfamily \color{black}},
+ columns=fixed,
+ showstringspaces=false,
+}
+
+\tcbset{on line, 
+    boxsep=2pt, left=0pt,right=0pt,top=0pt,bottom=0pt,
+    colframe=white,colback=InlineGray,
+}
+\newcommand{\codeinline}[1]{\tcbox{\lstinline[style=inline]|#1|}}
+
+\author{
+ Stefanelli Francesco \\
+ Matricola 538549\\
+ \texttt{fra.stefanelli3@stud.uniroma3.it}
+}
+
+\title{\huge\textbf{Report Progetto Deep Learning: Financial Sentiment Analysis }}
+\date{\href{https://github.com/Francesco9932/financial-sentiment-analysis}{GitHub: financial-sentiment-analysis}\\ Anno Accademico 2022/2023}
+
+
+
+\begin{document}
+\maketitle
+In questa relazione è stato documentato il lavoro svolto durante lo sviluppo del progetto del corso Deep Learning. Il progetto consiste nell'utilizzare diverse tecniche e modelli di DL per effettuare Sentiment Analysis nel contento delle news finanziarie.
+La relazione di divide in tre sezioni: nella prima sezione è riportato il dataset utilizzato per il caso di studio, nella seconda è riportata la fase di preparazione dei dati, nella terza l'implementazione dei modelli utilizzati e nella quarta si presentano i risultati ottenuti e le comparazioni effettuate.
+
+\section{Dataset}
+\input{./dataset.tex}
+
+\section{\label{section:1}Data preparation}
+\input{./data_preparation.tex}
+
+\section{Modelli e implementazioni}
+\input{./implementazione.tex}
+
+\section{Risultati}
+\input{./risultati_e_tempi_di_esecuzione.tex}
+
+\input{./bibliografia.tex}
+
+\end{document}
