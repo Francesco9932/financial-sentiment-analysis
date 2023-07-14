@@ -3,6 +3,10 @@
 \usepackage[T1]{fontenc}
 \usepackage{babel}
 \usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage{silence}
+\WarningFilter{latex}{Text page 8 contains only floats}
+
+
 
 \usepackage{float}
 \usepackage{amsmath}
@@ -29,6 +33,7 @@
 
 \usepackage{biblatex}
 \addbibresource{bibliografia.bib}
+
 
 \definecolor{InlineGray}{HTML}{E3E3E3}
 
@@ -71,10 +76,16 @@
 \begin{document}
 \maketitle
 In questa relazione è stato documentato il lavoro svolto durante lo sviluppo del progetto del corso Deep Learning. Il progetto consiste nell'utilizzare diverse tecniche e modelli di DL per effettuare Sentiment Analysis nel contento delle news finanziarie.
-La relazione di divide in tre sezioni: nella prima sezione è riportato il dataset utilizzato per il caso di studio, nella seconda è riportata la fase di preparazione dei dati, nella terza l'implementazione dei modelli utilizzati e nella quarta si presentano i risultati ottenuti e le comparazioni effettuate.
+La relazione di divide in tre sezioni: nella prima sezione sono riportati i dataset utilizzati per il caso di studio, nella seconda è riportata la fase di preparazione dei dati, nella terza l'implementazione dei modelli utilizzati e nella quarta si presentano i risultati ottenuti e le comparazioni effettuate.
+
+\hypersetup{linkcolor=black}
+\tableofcontents
+
+\newpage
 
 \section{Dataset}
 \input{./dataset.tex}
+
 
 \section{\label{section:1}Data preparation}
 \input{./data_preparation.tex}
@@ -84,6 +95,7 @@ La relazione di divide in tre sezioni: nella prima sezione è riportato il datas
 
 \section{Risultati}
 \input{./risultati_e_tempi_di_esecuzione.tex}
+
 
 \input{./bibliografia.tex}
 

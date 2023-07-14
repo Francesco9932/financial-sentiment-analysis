@@ -31,14 +31,13 @@ Il modello GloVe (Global Vectors for Word Representation) introduce alcune varia
 Ottenendo come nuova loss function:
 \[\sum_{i=1}^{V}\sum_{j=1}^{V} h(x_{ij}) \left( \mathbf{u}_j^T \mathbf{v}_i + b_i + c_j - \log x_{ij} \right)^2\]
 
+\newpage
 
   \subsubsection{GloVe - CNN1d}
   L'implementazione con le Convolutional Neural Networks (CNNs) impiega GloVe per generare gli embeddings, una serie di strati conv1D seguiti da GlobalMaxPooling1D e infine alcuni layer MLP con una softmax sull'ultimo strato dense con 3 nodi pari al numero di classi in output. Il dettaglio è indicato in Table \ref{tab:cnn}.
 
 \begin{table}[!ht]
 \centering
-\caption{GloVe-CNN1d detailed model architecture}
-\label{tab:cnn}
 \begin{tabular}{ccccc}
 \toprule
 Layer & Maps & Kernel size & Activation & Dropout prob.\\
@@ -61,14 +60,14 @@ Layer & Maps & Kernel size & Activation & Dropout prob.\\
     Fully Connected & 3 & - & Softmax & -\\
 \bottomrule
 \end{tabular}
+\caption{GloVe-CNN1d detailed model architecture}
+\label{tab:cnn}
 \end{table}
-\newpage
 
   \subsubsection{GloVe - LSTM}
   Anche l'implementazione con la Long short-term memory (LSTM) impiega GloVe per generare gli embeddings, successivamemte un layer ricorrente LSTM, un layer di flatten e infine alcuni layer MLP con una softmax sull'ultimo strato dense con 3 nodi pari al numero di classi in output. Nel dettaglio:
 \begin{table}[!ht]
 \centering
-\caption{GloVe-LSTM detailed model architecture}
 \begin{tabular}{cccc}
 \toprule
 Layer & Nodes & Return sequences & Activation \\
@@ -79,9 +78,43 @@ Layer & Nodes & Return sequences & Activation \\
     Fully Connected & 3 & - & Softmax\\
 \bottomrule
 \end{tabular}
+\caption{GloVe-LSTM detailed model architecture}
 \end{table}
   
 \newpage
+
+
+\subsection{Ensemble Classifier for Financial Sentiment Analysis}
+\subsubsection{Deep-FASP}
+La tecnica \textit{Financial Aspect and Sentiment Prediction task with Deep neural networks} \textit{(Deep-FASP)} proposta in \cite{10.1145/3184558.3191829} consiste in un ensemble classifier di modelli di DL. Gli autori questo  approccio lo hanno utilizzato sia per il task sentiment analysis, sia per l'individuazione di aspetti target nelle news finanziarie. Nel seguente progetto l'analisi verrà limitata al primo task di sentiment analysis (sentiment classification).\newline
+In particolare Deep-FASP utilizza un ensemble di classificatori che comprende: CNNs, LSTMs e GRUs, dove l'output di tutte queste reti può essere comnbinata con un processo di voting che permette di ottenere poi, insieme ad una softmax come funzione di attivazione, la classificazione del sentiment in classi. 
+\newline
+Questo approccio più nel dettaglio si compone di 5 steps (illustrata in Figure \ref{fig:deep_fasp}):
+\begin{itemize}
+    \item \textbf{Input}: Ogni news headline è presa come sequenza di parole.
+    \item \textbf{Word Embeddings}: Le parole vengono rappresentate in uno spazio latente di word embeddings. Utilizzando, ad esempio, GloVe.
+    \item \textbf{DNNs}: La sequenza di word embeddings è usata come input alle CNNs, LSTMs e GRUs. Ogni singola rete avrà in output la propria sentiment classification.
+    \item \textbf{Voting-Classification}: Infine, l'output delle singole reti viene combinato tramite un processo di voting e una MLP seguita da una softmax per ottenere la sentiment classification finale.
+\end{itemize}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=10cm]{./images/deep_FASP.png}
+    \caption{Overview of the voting approach Deep-FASP \cite{10.1145/3184558.3191829} for sentiment classification}
+    \label{fig:deep_fasp}
+\end{figure}
+
+\subsubsection{Deep-FASP + SVR}
+La tecnica precente basata su ensemble è stata estesa, come nell'approccio proposto in \cite{inproceedings}, in modo tale da utilizzare un altro modello nell'insieme costituito per la classificazione del sentiment. Questa tecnica di ensemble considera oltre alle CNNs, LSTMs e GRUs anche le Support Vector Machines addrestrate tramite delle feature estratte dal modello tf-idf che consente di assegnare un'importanza ad una parola all'interno di un corpus di parole. 
+Questa tecnica, come la precedente, utilizza uno strato fully connected per andare a realizzare l'ensemble voting. In dettaglio l'architettura è illustrata in Figure \ref{fig:ensemble2}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=8cm]{./images/ensemble_2_architecture.png}
+    \caption{Overview of the extended ensemble 
+    \label{fig:ensemble2}
+     \cite{inproceedings} for sentiment classification}
+\end{figure}
 
 \subsection{BERT}
 Il modello BERT proposto in \cite{devlin2019bert} per la generazione degli word embeddings combina due approcci differenti: 
@@ -133,7 +166,7 @@ Il modello pre-addestrato di FinBERT utilizzato nel training e nella valutazione
     
 \subsubsection{DistilBERT}
 DistilBERT \cite{sanh2020distilbert} è una versione più piccola, veloce e leggera di BERT base. Ha il 40\% in meno di parametri rispetto a bert-base-uncased, funziona il 60\% più velocemente, preservando al contempo oltre il 95\% delle prestazioni di BERT misurate sul benchmark di comprensione del linguaggio GLUE. Il modello pre-addestrato di DistilBERT utilizzato nel training e nella valutazione del modello è stato sempre preso da HuggingFace.\footnote{\href{https://huggingface.co/distilbert-base-uncased}{Pretrained HuggingFace distilbert-base-uncased}}  
-
+\newpage
 
 
 % https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270

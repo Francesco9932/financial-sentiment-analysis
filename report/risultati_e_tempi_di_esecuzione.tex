@@ -23,7 +23,7 @@ R = \frac{TP}{TP+FN} \label{eq:richiamo}
 \end{equation}
 
 \subsubsection{Comparazione e Training dei modelli}
-Dopo aver effettuato il preprocessing del dataset e la definizione dei modelli come da capitoli precenti la pipeline che si è andato a seguire 
+Dopo aver effettuato il preprocessing dei dataset e la definizione dei modelli come da capitoli precenti la pipeline che si è andato a seguire 
 (compresa anche di data preparation) è descritta in Figure \ref{fig:pipeline}.
 
 \begin{figure}[!ht]
@@ -32,7 +32,7 @@ Dopo aver effettuato il preprocessing del dataset e la definizione dei modelli c
     \caption{Implemented pipeline for Financial Sentiment Analysis}
     \label{fig:pipeline}
 \end{figure}
-
+\newpage
 Inoltre la suddivisione in train-val-test set del dataset segue queste percentuali:
 \begin{itemize}
     \item Train set: 70\%
@@ -41,12 +41,12 @@ Inoltre la suddivisione in train-val-test set del dataset segue queste percentua
 \end{itemize}
 Per il training di tutti e 4 i modelli impiegati nello studio del caso di studio sono state utilizzate due callbacks per cercare di evitare l'overfitting dei modelli durante il training, rispettivamente: early stopping e model checkpoint. Il model checkpoint  è stato impostato tale per cui andrà a salvare la versione del modello con la validation accuracy più alta durante il training. Mentre, l'early stopping terminerà il training se la validation accuracy non è migliorata per un numero di volte pari al parametro di patience.
 L'optimizer utilizzato per tutti e 4 i modelli è Adam, dove per i modelli GloVe based sono stati utilizzati i parametri di default di Keras, mentre per le versioni di BERT il learning rate (lr) è pari a 5 $\times 10^{-5}$, $\epsilon = 1 \times 10^{-8}$ e clipnorm $= 1.0$.
-Tutti gli altri iperparametri di training e le callbacks nello specifico sono indicate in Table \ref{tab:hyper-parameter}:
+Tutti gli altri iperparametri di training e le callbacks nello specifico sono indicate in Table \ref{tab:hyper-parameter}.
+\newline
+Infine, in Table \ref{tab:performance1}, \ref{tab:performance2} si possono vedere i valori, per entrambi i dataset considerati, di precision, recall e f1-score ottenuti in fase di validazione dei modelli. Tali valori sono stati presi tramite il metodo \codeinline{classificationReport()} di Sklearn, riportando come valori quelli con macroAVG, ovvero mediati sul numero delle classi. 
 
 \begin{table}[!ht]
   \centering
-  \caption{Hyperparameters and compiling details of used methods}
-  \label{tab:hyper-parameter}
   \begin{tabular}{c|c|c|c|c|c|c|c|c}
     Methods & Opimizer & Loss & Metric & Batch Size & Epochs & ES Patience\\
     \midrule
@@ -56,14 +56,12 @@ Tutti gli altri iperparametri di training e le callbacks nello specifico sono in
     DistilBERT & Adam & CCE & Accuracy & 32 & 10 & 3\\
     \bottomrule
   \end{tabular}
+  \caption{Hyperparameters and compiling details of used methods}
+  \label{tab:hyper-parameter}
 \end{table}
-
-In Table \ref{tab:performance} si possono vedere i valori di precision, recall e f1-score ottenuti in fase di validazione dei modelli, tali valori sono stati presi tramite il metodo \codeinline{classificationReport()} di Sklearn, riportando come valori quelli con macroAVG, ovvero mediati sul numero delle classi. 
 
 \begin{table}[!ht]
   \centering
-  \caption{Performance comparization of implemented models}
-  \label{tab:performance}
   \begin{tabular}{c|c|c|c|c}
     Methods & Precision (\%) & Recall (\%) & F1-Score (\%) & Accuracy (\%) \\
     \midrule
@@ -73,31 +71,88 @@ In Table \ref{tab:performance} si possono vedere i valori di precision, recall e
     DistilBERT & 84.49 & 81.14 & 82.66 & 84.44 \\
     \bottomrule
   \end{tabular}
+  \caption{Performance comparization of implemented models on FinancialPhraseBank dataset}
+  \label{tab:performance1}
 \end{table}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{c|c|c|c|c}
+    Methods & Precision (\%) & Recall (\%) & F1-Score (\%) & Accuracy (\%) \\
+    \midrule
+    GloVe+CNN & 63.76 & 60.84 & 61.28 & 73.22 \\
+    GloVe+LSTM & 61.18 & 57.51 & 57.77 & 69.16 \\
+    FinBERT & \textbf{72.11} & \textbf{74.45} & \textbf{73.07} & \textbf{78.18} \\
+    DistilBERT & 69.60 & 68.58 & 68.97 & 76.47 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Performance comparization of implemented models on FinancialPhraseBank+FiQA dataset}
+  \label{tab:performance2}
+\end{table}
+
 \newpage
 
-\subsubsection{Grafici della Training/Val Accuracy dei modelli}
+\subsubsection{Grafici Training/Val Accuracy dei modelli su FinancialPhraseBank}
+Come nella precedente sottosezione anche qui sono riportati i grafici della training/val accuracy dei vari modelli sul dataset FinancialPhraseBank.\newline
+Rispettivamente del modello GloVe+CNN1d:
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=12cm]{./images/plot_cnn.png}
     \caption{Plot of GloVe+CNN1d train/val accuracy}
 \end{figure}
-
+\newline
+GloVe+LSTM:
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=11.5cm]{./images/plot_lstm.png}
     \caption{Plot of GloVe+LSTM train/val accuracy}
 \end{figure}
-
+\newline
+\newpage
+finBERT:
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=12cm]{./images/plot_finBERT.png}
     \caption{Plot of FinBERT train/val accuracy}
 \end{figure}
-
+\newline
+distilBERT:
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=12cm]{./images/plot_distilBERT.png}
+    \caption{Plot of DistilBERT train/val accuracy}
+\end{figure}
+
+\newpage
+
+\subsubsection{Grafici Training/Val Accuracy dei modelli su FinancialPhraseBank+FiQA}
+Come nella precedente sottosezione anche qui sono riportati i grafici della training/val accuracy dei vari modelli sul dataset FinancialPhraseBank+FiQA.\newline
+Rispettivamente del modello GloVe+CNN1d:
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=12cm]{./images/acc_glove_cnn_2.png}
+    \caption{Plot of GloVe+CNN1d train/val accuracy}
+\end{figure}
+\newline
+GloVe+LSTM:
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=11.5cm]{./images/acc_glove_lstm_2.png}
+    \caption{Plot of GloVe+LSTM train/val accuracy}
+\end{figure}
+\newline
+\newpage
+finBERT:
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=12cm]{./images/acc_finBERT_2.png}
+    \caption{Plot of FinBERT train/val accuracy}
+\end{figure}
+\newline
+distilBERT:
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=12cm]{./images/acc_distilBERT_2.png}
     \caption{Plot of DistilBERT train/val accuracy}
 \end{figure}
 
@@ -161,5 +216,6 @@ Di seguito sono riportate le previsioni ottenute in output dai relativi modelli 
     \end{tabular}
   \end{table}
 \newpage
+
 
 
